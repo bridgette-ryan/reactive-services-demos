@@ -1,7 +1,7 @@
 package com.bridgetter.productsservice.config;
 
-import com.bridgetter.productsservice.model.dto.ProductDto;
 import com.bridgetter.productsservice.entity.Product;
+import com.bridgetter.productsservice.model.dto.ProductDto;
 import com.bridgetter.productsservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,9 +36,9 @@ public class ProductRequestHandler {
     }
 
     public Mono<ServerResponse> insertProduct(ServerRequest serverRequest) {
-        Mono<ProductDto> dto = productService.insertProduct(serverRequest.bodyToMono(ProductDto.class)) ;
-        return ServerResponse.ok()
-                .body(dto, ProductDto.class) ;
+        return ServerResponse
+                .ok()
+                .body(productService.insertProduct(serverRequest.bodyToMono(ProductDto.class)), ProductDto.class);
     }
 
     public Mono<ServerResponse> updateProduct(ServerRequest serverRequest) {

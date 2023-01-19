@@ -1,11 +1,15 @@
 package com.bridgetter.productsservice.exception;
 
 
-public class ProductAlreadyExistsException extends RuntimeException {
-    public ProductAlreadyExistsException(String e) {
-        super(e) ;
-    }
-    public ProductAlreadyExistsException() {
+import lombok.Getter;
 
+@Getter
+public class ProductAlreadyExistsException extends RuntimeException {
+
+    private static String message = "Product Already Exists in Datasource" ;
+    private String id ;
+    public ProductAlreadyExistsException(String id) {
+        super(message) ;
+        this.id = id ;
     }
 }
