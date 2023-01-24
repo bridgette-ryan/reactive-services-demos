@@ -2,6 +2,7 @@ package com.bridgetter.productsservice.config;
 
 import com.bridgetter.productsservice.entity.Product;
 import com.bridgetter.productsservice.model.dto.ProductDto;
+import com.bridgetter.productsservice.model.dto.ProductPurchaseDto;
 import com.bridgetter.productsservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,8 +32,9 @@ public class ProductRequestHandler {
 
     public Mono<ServerResponse> getById(ServerRequest serverRequest) {
         Mono<ProductDto> dto = productService.getProduct(serverRequest.pathVariable("id")) ;
-        return ServerResponse.ok()
-                .body(dto, ProductDto.class) ;
+        return dto
+                .flatMap(product -> ServerResponse.ok().body(product, ProductDto.class))
+                .switchIfEmpty(ServerResponse.notFound().build());
     }
 
     public Mono<ServerResponse> insertProduct(ServerRequest serverRequest) {
@@ -47,4 +49,9 @@ public class ProductRequestHandler {
                 .body(dto, ProductDto.class) ;
     }
 
+    public Mono<ServerResponse> deleteProduct(ServerRequest serverRequest) {
+        return  productService.deleteProduct(
+                        serverRequest.pathVariable("id"))
+                .then(ServerResponse.noContent().build());
+    }
 }

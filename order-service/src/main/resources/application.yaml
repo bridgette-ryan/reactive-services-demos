@@ -1,0 +1,9 @@
+server:
+  port: 8082
+
+spring:
+  r2dbc:
+    name: reactive-users
+    url: r2dbc:postgresql://localhost:5455
+    username: reactive-web
+    password: reactive

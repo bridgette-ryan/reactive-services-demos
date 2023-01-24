@@ -3,7 +3,6 @@ package com.bridgetter.productsservice.service;
 import com.bridgetter.productsservice.exception.ProductAlreadyExistsException;
 import com.bridgetter.productsservice.model.dto.ProductDto;
 import com.bridgetter.productsservice.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -22,7 +21,9 @@ public class ProductService {
     }
 
     public Mono<ProductDto> getProduct(String id) {
-        return productRepository.findById(id).map(ProductDto::new) ;
+        return productRepository.findById(id)
+                .map(ProductDto::new)
+                ;
     }
 
     public Mono<ProductDto> insertProduct(Mono<ProductDto> in) {
@@ -46,6 +47,6 @@ public class ProductService {
     }
 
     public Mono<Void> deleteProduct(String id) {
-        return productRepository.deleteById(id) ;
+        return productRepository.deleteById(id);
     }
 }

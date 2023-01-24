@@ -2,6 +2,7 @@ package com.bridgetter.productsservice.config;
 
 import com.bridgetter.productsservice.exception.ProductAlreadyExistsException;
 import com.bridgetter.productsservice.model.error.BaseError;
+import com.bridgetter.productsservice.model.error.ErrorCodes;
 import com.bridgetter.productsservice.model.error.ErrorWrapper;
 import com.bridgetter.productsservice.model.error.ProductAlreadyExistsError;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -34,9 +35,10 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
             errors.getErrors().add(new BaseError(
                     HttpStatus.INTERNAL_SERVER_ERROR,
+                    ErrorCodes.PRODUCT_ALREADY_EXISTS,
                     exchange.getRequest().getPath().toString(),
                     "Internal Server Error",
-                    "This event has been logged."
+                    ex.getMessage()
             )) ;
         }
 

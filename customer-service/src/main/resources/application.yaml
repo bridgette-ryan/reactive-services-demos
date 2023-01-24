@@ -1,0 +1,13 @@
+server:
+  port: 8081
+
+spring:
+  r2dbc:
+    name: reactive-users
+    url: r2dbc:postgresql://localhost:5455
+    username: reactive-web
+    password: reactive
+
+config:
+  hosts:
+    order-service: http://localhost:8082

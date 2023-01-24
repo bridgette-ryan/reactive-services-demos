@@ -23,6 +23,7 @@ public class RouterConfig {
                 .GET("products", productRequestHandler::getAll)
                 .POST("products", productRequestHandler::insertProduct)
                 .PUT("products/{id}", productRequestHandler::updateProduct)
+                .DELETE("products/{id}", productRequestHandler::deleteProduct)
                 .build();
     }
 }
