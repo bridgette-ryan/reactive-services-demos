@@ -1,10 +1,11 @@
-package com.bridgetter.productsservice.config;
+package com.bridgetter.customerservice.config;
 
-import com.bridgetter.productsservice.exception.ProductAlreadyExistsException;
-import com.bridgetter.productsservice.model.error.BaseError;
-import com.bridgetter.productsservice.model.error.ErrorCodes;
-import com.bridgetter.productsservice.model.error.ErrorWrapper;
-import com.bridgetter.productsservice.model.error.ProductAlreadyExistsError;
+import com.bridgetter.customerservice.exception.DownstreamServiceUnavailableException;
+import com.bridgetter.customerservice.model.error.BaseError;
+import com.bridgetter.customerservice.model.error.DownstreamServiceUnavailable;
+import com.bridgetter.customerservice.model.error.ErrorCodes;
+import com.bridgetter.customerservice.model.error.ErrorWrapper;
+import com.google.gson.Gson;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -13,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import com.google.gson.Gson;
 
 @Component
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
@@ -24,13 +24,13 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         DataBufferFactory dbf = exchange.getResponse().bufferFactory();
         ErrorWrapper errors = new ErrorWrapper();
 
-        if(ex instanceof ProductAlreadyExistsException) {
+        if(ex instanceof DownstreamServiceUnavailableException) {
             exchange.getResponse().setStatusCode(HttpStatus.BAD_REQUEST);
             exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
-            errors.getErrors().add(new ProductAlreadyExistsError(
+            errors.getErrors().add(new DownstreamServiceUnavailable(
                     HttpStatus.BAD_REQUEST,
-                    ((ProductAlreadyExistsException) ex).getId(),
-                    exchange.getRequest().getPath().toString()
+                    exchange.getRequest().getPath().toString(),
+                    ex.getMessage()
             )) ;
         }
         else {
