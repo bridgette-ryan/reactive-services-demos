@@ -1,6 +1,8 @@
 package com.bridgetter.customerservice.controller;
 
 import com.bridgetter.customerservice.model.dto.CustomerDto;
+import com.bridgetter.customerservice.model.dto.OrderDto;
+import com.bridgetter.customerservice.model.dto.OrderLineDto;
 import com.bridgetter.customerservice.service.CustomerService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -43,17 +45,12 @@ public class CustomerController {
     }
 
     @GetMapping(value = "{id}/orders/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Flux<Object> getCustomerOrder(@PathVariable("id") String id, @PathVariable("orderId") String orderId) {
-        // This is bad, because the getCustomerOrders() method does not check to see
-        // if the current customer is associated with that order id. This is due
-        // to some issues I had with trying to validate the order in the target service,
-        // thanks to the composite method chaining.
-
+    public Flux<OrderLineDto> getCustomerOrder(@PathVariable("id") String id, @PathVariable("orderId") String orderId) {
         return customerService.getCustomerOrderLines(id, orderId) ;
     }
 
     @GetMapping(value = "{id}/orders", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Flux<Object> getCustomerOrders(@PathVariable("id") String id) {
+    public Flux<OrderDto> getCustomerOrders(@PathVariable("id") String id) {
         return customerService.getCustomerOrders(id) ;
     }
 

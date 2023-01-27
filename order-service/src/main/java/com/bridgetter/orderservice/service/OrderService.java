@@ -22,8 +22,11 @@ public class OrderService {
     }
 
 
-    public Flux<OrderLineDto> getOrderLinesByIdAndCustomerId(String orderId) {
-        Flux<OrderLineDto> dto = orderLineRepository.findByTransactId(Integer.valueOf(orderId))
+    public Flux<OrderLineDto> getOrderLinesByIdAndCustomerId(String customerId, String orderId) {
+        Flux<OrderLineDto> dto = orderLineRepository.findByTransactIdTest(
+                Integer.valueOf(customerId),
+                        Integer.valueOf(orderId)
+                )
                 .map(OrderLineDto::new);
         return dto;
     }

@@ -22,7 +22,9 @@ public class OrderRequestHandler {
     }
 
     public Mono<ServerResponse> getOrderLinesByOrderId(ServerRequest serverRequest) {
-        Flux<OrderLineDto> dtoFlux = orderService.getOrderLinesByIdAndCustomerId(serverRequest.pathVariable("id")) ;
+        Flux<OrderLineDto> dtoFlux = orderService.getOrderLinesByIdAndCustomerId(
+                serverRequest.pathVariable("customerId"),
+                serverRequest.pathVariable("id")) ;
         return ServerResponse.ok().body(dtoFlux, OrderLineDto.class) ;
     }
 }

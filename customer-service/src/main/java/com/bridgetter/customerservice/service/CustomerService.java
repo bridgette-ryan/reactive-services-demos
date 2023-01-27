@@ -2,6 +2,8 @@ package com.bridgetter.customerservice.service;
 
 import com.bridgetter.customerservice.exception.DownstreamServiceUnavailableException;
 import com.bridgetter.customerservice.model.dto.CustomerDto;
+import com.bridgetter.customerservice.model.dto.OrderDto;
+import com.bridgetter.customerservice.model.dto.OrderLineDto;
 import com.bridgetter.customerservice.repository.CustomerRepository;
 import io.netty.channel.ChannelOption;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,24 +43,24 @@ public class CustomerService {
     }
 
 
-    public Flux<Object> getCustomerOrders(String id) {
+    public Flux<OrderDto> getCustomerOrders(String id) {
         return this.newWebClient()
                 .get()
                 .uri("/customer-orders/{id}", id )
                 .retrieve()
-                .bodyToFlux(Object.class)
+                .bodyToFlux(OrderDto.class)
                 .onErrorMap(e -> {
                     if(e instanceof WebClientRequestException) return new DownstreamServiceUnavailableException("order") ;
                     return e ;
                 });
     }
 
-    public Flux<Object> getCustomerOrderLines(String customerId, String id) {
+    public Flux<OrderLineDto> getCustomerOrderLines(String customerId, String id) {
         return this.newWebClient()
                 .get()
-                .uri("/order-lines/{id}", id )
+                .uri("customer-orders/{customer_id}/order-lines/{order_id}", customerId, id )
                 .retrieve()
-                .bodyToFlux(Object.class)
+                .bodyToFlux(OrderLineDto.class)
                 .onErrorMap(e -> {
                     if(e instanceof WebClientRequestException) return new DownstreamServiceUnavailableException("order") ;
                     return e ;

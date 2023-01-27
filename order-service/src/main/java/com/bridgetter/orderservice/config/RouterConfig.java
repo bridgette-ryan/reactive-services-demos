@@ -17,7 +17,8 @@ public class RouterConfig {
     @Bean
     public RouterFunction<ServerResponse> serverResponseRouterFunction() {
         return RouterFunctions.route()
-                .GET("order-lines/{id}",orderRequestHandler::getOrderLinesByOrderId)
+                //.GET("order-lines/{id}",orderRequestHandler::getOrderLinesByOrderId)
+                .GET("customer-orders/{customerId}/order-lines/{id}",orderRequestHandler::getOrderLinesByOrderId)
                 .GET("customer-orders/{id}",orderRequestHandler::getOrdersByCustomerId)
                 .build();
     }
