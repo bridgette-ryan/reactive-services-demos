@@ -41,6 +41,10 @@ public class CustomerRequestHandler {
 
     public Mono<ServerResponse> getCustomerOrderLines(ServerRequest serverRequest) {
         return ServerResponse.ok().body(
-                customerService.getCustomerOrderLines(serverRequest.pathVariable("orderId")),Object.class);
+                customerService.getCustomerOrderLines(
+                        serverRequest.pathVariable("id"),
+                        serverRequest.pathVariable("orderId")
+                ),Object.class);
     }
+
 }

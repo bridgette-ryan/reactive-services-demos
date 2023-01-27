@@ -53,7 +53,7 @@ public class CustomerService {
                 });
     }
 
-    public Flux<Object> getCustomerOrderLines(String id) {
+    public Flux<Object> getCustomerOrderLines(String customerId, String id) {
         return this.newWebClient()
                 .get()
                 .uri("/order-lines/{id}", id )

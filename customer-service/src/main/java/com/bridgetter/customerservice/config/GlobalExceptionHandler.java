@@ -40,7 +40,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     ErrorCodes.UNKNOWN_ERROR,
                     exchange.getRequest().getPath().toString(),
-                    "Internal Server Error",
+                    "Internal Server Error - " + ex.getCause(),
                     ex.getMessage()
             )) ;
         }
